@@ -1,0 +1,44 @@
+TO perform the Craft Demo project , please do consider the below details 
+
+================
+Install jq package
+
+sudo yum install jq -y 
+
+================================
+Create a shell script with the below details 
+file name :vi travel.sh
+
+
+#!/bin/bash
+
+echo "Enter country codes (separated by spaces):"
+read -a countries
+
+for country in "${countries[@]}"; do
+    name=$(jq -r --arg country "$country" '.data[$country].name' file.json)
+
+    if [ "$name" != "null" ]; then
+        echo "Country name for code $country is $name"
+    else
+        echo "Country code $country not found in the JSON file."
+    fi
+done
+
+
+chmod u+x travel.sh
+================================
+Create a alias for the cli usage 
+
+vi .bash_profile
+
+
+alias lookup='./absolute_path/travel.sh'
+
+to apply changes 
+
+source ~/.bash_profile
+
+
+
+
